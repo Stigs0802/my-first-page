@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>產業人才投資計畫 (Industrial Human Resource Investment Plan) - 核心重點與實務全覽</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #1e3a8a;
+      --primary: #0B3C5D;
       --primary-light: #3b82f6;
       --primary-dark: #172554;
-      --accent: #0d9488;
+      --accent: #0F9D8A;
       --accent-light: #14b8a6;
       --warning: #f59e0b;
       --danger: #ef4444;
@@ -29,7 +32,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
       overflow: hidden;
@@ -63,7 +66,7 @@
     }
 
     .top-title .badge {
-      background: #2563eb;
+      background: #0F9D8A;
       color: #fff;
       font-size: 11px;
       padding: 2px 8px;
@@ -163,7 +166,7 @@
 
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #2563eb, #0d9488);
+      background: linear-gradient(90deg, #0F9D8A, #0F9D8A);
       width: 12.5%;
       transition: width 0.3s ease;
     }
@@ -181,7 +184,7 @@
     .slide-header .tagline {
       font-size: 13px;
       font-weight: 700;
-      color: #2563eb;
+      color: #0F9D8A;
       letter-spacing: 1px;
       text-transform: uppercase;
       margin-bottom: 4px;
@@ -264,11 +267,11 @@
     }
 
     .card-primary {
-      border-top: 4px solid #2563eb;
+      border-top: 4px solid #0F9D8A;
     }
 
     .card-accent {
-      border-top: 4px solid #0d9488;
+      border-top: 4px solid #0F9D8A;
     }
 
     .card-warning {
@@ -309,7 +312,7 @@
       content: "•";
       position: absolute;
       left: 2px;
-      color: #2563eb;
+      color: #0F9D8A;
       font-weight: bold;
       font-size: 18px;
       line-height: 1;
@@ -419,7 +422,7 @@
     .timeline-step {
       font-size: 11px;
       font-weight: 700;
-      color: #2563eb;
+      color: #0F9D8A;
       text-transform: uppercase;
       margin-bottom: 4px;
     }
@@ -439,7 +442,7 @@
 
     /* Slide 1 Hero Banner */
     .hero-banner {
-      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      background: linear-gradient(135deg, #0B3C5D 0%, #0f172a 100%);
       color: #ffffff;
       border-radius: 14px;
       padding: 38px 44px;
@@ -544,7 +547,7 @@
     }
 
     .overview-thumb.current {
-      border-color: #2563eb;
+      border-color: #0F9D8A;
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
     }
 
@@ -592,6 +595,58 @@
         box-sizing: border-box;
       }
     }
+    /* Course design system */
+    body { background: #0B3C5D; }
+    button, a { font-family: inherit; }
+    .top-bar { background: #0B3C5D; }
+    .top-title .badge, .card-primary { background-color: #0F9D8A; }
+    .card-primary { background-color: #fff; border-top-color: #0F9D8A; }
+    .card-accent { border-top-color: #0B3C5D; }
+    .slide-header .tagline, .list-styled li::before { color: #0F9D8A; }
+    .slide-header h2, .card-title { color: #0B3C5D; }
+    .hero-banner { background: linear-gradient(135deg, #0B3C5D, #075b63); }
+    .progress-bar { background: #0F9D8A; }
+    .btn-icon:hover, .nav-arrow:hover { background: #0F9D8A; }
+    .btn-icon { min-height: 44px; }
+    .btn-icon:focus-visible, .overview-thumb:focus-visible { outline: 3px solid #5eead4; outline-offset: 3px; }
+    @media screen and (max-width: 900px) {
+      body { height: auto; min-height: 100dvh; overflow: auto; }
+      .top-bar { height: auto; padding: 12px 16px; flex-wrap: wrap; gap: 12px; position: sticky; top: 0; }
+      .top-title { width: 100%; min-width: 0; font-size: 12px; }
+      .top-title > span:last-child { overflow-wrap: anywhere; }
+      .top-nav { width: 100%; justify-content: space-between; gap: 4px; flex-wrap: wrap; }
+      .btn-icon { padding: 8px; font-size: 12px; white-space: nowrap; }
+      .slide-counter { min-width: 42px; }
+      .stage { display: block; padding: 12px; }
+      .slide-viewport { aspect-ratio: auto; height: auto; max-height: none; border-radius: 12px; }
+      .slide { position: relative; height: auto; min-height: calc(100dvh - 160px); padding: 24px 18px; overflow: visible; transform: none; }
+      .slide-header { align-items: flex-start; gap: 8px; margin-bottom: 20px; }
+      .slide-header h2 { font-size: 23px; line-height: 1.5; }
+      .slide-header .tagline { font-size: 11px; overflow-wrap: anywhere; }
+      .slide-header .slide-num-tag { font-size: 22px; }
+      .slide-content { flex: none; justify-content: flex-start; gap: 16px; min-width: 0; width: 100%; }
+      .grid-2, .grid-3, .grid-4, .hero-banner [style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+      .card { min-width: 0; max-width: 100%; padding: 18px; }
+      .card-body { font-size: 14px; line-height: 1.8; }
+      .hero-banner { padding: 24px 18px; min-height: auto; height: auto; gap: 24px; }
+      .hero-title { font-size: 32px; line-height: 1.4; }
+      .hero-subtitle { font-size: 16px; }
+      .hero-banner .pill { flex: 0 0 auto; white-space: nowrap; }
+      .hero-banner [style*="display: flex"], .hero-banner [style*="display:flex"] { flex-wrap: wrap; gap: 8px; }
+      .slide-content > *, .slide-header > * { min-width: 0; }
+      .slide-content [style*="display: flex"], .slide-content [style*="display:flex"] { flex-wrap: wrap; gap: 8px; }
+      .hero-banner > div:last-child { flex-wrap: wrap; gap: 16px; }
+      .slide > div:last-child { flex-wrap: wrap; gap: 12px; }
+      .table-custom { display: block; max-width: 100%; overflow-x: auto; }
+      .table-custom th, .table-custom td { min-width: 110px; }
+      .timeline { flex-direction: column; gap: 12px; }
+      .timeline-item { min-width: 0; width: 100%; }
+      .timeline-item::after { display: none; }
+      .nav-arrow { display: none; }
+      .overview-modal { padding: 24px 16px; }
+      .overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
   </style>
 </head>
 <body>
@@ -732,11 +787,11 @@
                 <div style="font-size: 13px;">
                   <div style="display:flex; justify-content:space-between; padding: 6px 0; border-bottom: 1px dashed #cbd5e1;">
                     <strong>一般在職學員</strong>
-                    <span style="color:#2563eb; font-weight:700;">補助 80% (自付 20%)</span>
+                    <span style="color:#0F9D8A; font-weight:700;">補助 80% (自付 20%)</span>
                   </div>
                   <div style="display:flex; justify-content:space-between; padding: 6px 0;">
                     <strong>特定對象弱勢族群</strong>
-                    <span style="color:#0d9488; font-weight:700;">全額補助 100%</span>
+                    <span style="color:#0F9D8A; font-weight:700;">全額補助 100%</span>
                   </div>
                   <p style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
                     ※ 3年計算自初次參訓開訓日起算，滿期後重新起算。
@@ -769,7 +824,7 @@
             <div>
               ⚠️ <strong>參訓禁忌</strong>：參加政府失業者職前訓練補助期間，不得重複申領本計畫補助（受訓中非自願失業除外）；授課時段重疊者以一班為限。
             </div>
-            <div style="font-weight: 600; color: #1e3a8a;">條文依據：第 5、6、7 點</div>
+            <div style="font-weight: 600; color: #0B3C5D;">條文依據：第 5、6、7 點</div>
           </div>
         </div>
       </div>
@@ -1001,7 +1056,7 @@
                   <tr>
                     <td><span class="pill" style="font-size: 14px; font-weight: 800;">B 級</span></td>
                     <td><strong>25% (不含) ~ 55% (含)</strong></td>
-                    <td style="color:#2563eb; font-weight: 800; font-size: 16px;">30% 總經費</td>
+                    <td style="color:#0F9D8A; font-weight: 800; font-size: 16px;">30% 總經費</td>
                     <td>表現良好穩定之主力辦訓單位</td>
                   </tr>
                   <tr>
@@ -1052,7 +1107,7 @@
                 <div style="margin-bottom: 12px; background: #f8fafc; padding: 10px; border-radius: 6px;">
                   <div style="display:flex; justify-content:space-between; font-weight:700;">
                     <span>1-1 開班率</span>
-                    <span style="color:#2563eb;">5%</span>
+                    <span style="color:#0F9D8A;">5%</span>
                   </div>
                   <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
                     計算方式：實際開班數 / 核定總班數
@@ -1062,7 +1117,7 @@
                 <div style="background: #f8fafc; padding: 10px; border-radius: 6px;">
                   <div style="display:flex; justify-content:space-between; font-weight:700;">
                     <span>1-2 訓練人次達成率</span>
-                    <span style="color:#2563eb;">8%</span>
+                    <span style="color:#0F9D8A;">8%</span>
                   </div>
                   <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
                     計算方式：實際開訓人次 / 核定總人次
@@ -1081,20 +1136,20 @@
                 <span class="pill pill-green">核心 67%</span>
               </div>
               <div class="card-body" style="font-size: 12.5px;">
-                <div style="border-left: 3px solid #0d9488; padding-left: 8px; margin-bottom: 8px;">
+                <div style="border-left: 3px solid #0F9D8A; padding-left: 8px; margin-bottom: 8px;">
                   <strong>2-1 資料建置及維護 (28%)</strong><br>
                   • 各項函送資料/登錄時效 (11%)<br>
                   • 資料內容及登錄正確性 (10%)<br>
                   • 訓練計畫變更項次數 (7%)
                 </div>
 
-                <div style="border-left: 3px solid #0d9488; padding-left: 8px; margin-bottom: 8px;">
+                <div style="border-left: 3px solid #0F9D8A; padding-left: 8px; margin-bottom: 8px;">
                   <strong>2-2 督導與考核 (34%)</strong><br>
                   • 學員管理規範落實 (4%)<br>
                   • <strong>課程辦理情形 (30%)</strong> (訪視稽核、現場巡查、教學落實)
                 </div>
 
-                <div style="border-left: 3px solid #0d9488; padding-left: 8px;">
+                <div style="border-left: 3px solid #0F9D8A; padding-left: 8px;">
                   <strong>2-3 計畫參與度 (5%)</strong><br>
                   • 說明會、訓練及相關會議出席率 (5%)
                 </div>
@@ -1236,12 +1291,12 @@
             </div>
             <div class="timeline-item">
               <div class="timeline-step">階段 3 • 開訓報備</div>
-              <div class="timeline-title" style="color:#2563eb;">開訓後 14 日內</div>
+              <div class="timeline-title" style="color:#0F9D8A;">開訓後 14 日內</div>
               <div class="timeline-desc">函送開班學員名冊、投保狀況檢核表、契約書影本及全額補助證明等送轄區分署備查。</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-step">階段 4 • 結訓請領</div>
-              <div class="timeline-title" style="color:#0d9488;">結訓後 21 日內</div>
+              <div class="timeline-title" style="color:#0F9D8A;">結訓後 21 日內</div>
               <div class="timeline-desc">函送出席紀錄、發票收據、簽到退與日誌、結訓證書影本，分署審核直撥學員個人帳戶。</div>
             </div>
           </div>
@@ -1323,6 +1378,7 @@
       if (index > totalSlides) index = totalSlides;
 
       currentSlide = index;
+      if (window.matchMedia('(max-width: 900px)').matches) window.scrollTo({top: 0, behavior: 'instant'});
 
       for (let i = 1; i <= totalSlides; i++) {
         const slide = document.getElementById(`slide-${i}`);
@@ -1436,3 +1492,4 @@
   </script>
 </body>
 </html>
+
