@@ -1,4 +1,14 @@
 /* A quiet, editorial presentation with a sea-glass palette. */
+.hero-banner { position:relative; isolation:isolate; }
+.hero-visual { position:absolute; inset:0; z-index:-1; margin:0; overflow:hidden; border-radius:inherit; }
+.hero-visual img { width:100%; height:100%; object-fit:cover; object-position:center; opacity:.5; }
+.hero-visual::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#0B3C5D 0%,#0B3C5Ddd 34%,#0B3C5D22 80%),linear-gradient(0deg,#064c53 0%,transparent 70%); }
+.hero-visual figcaption { position:absolute; z-index:1; right:14px; top:14px; color:#fff; background:#082c43b3; border:1px solid #ffffff33; padding:5px 9px; border-radius:6px; font:10px "Noto Sans TC",sans-serif; }
+.learning-photo { position:relative; margin:0 0 18px; flex-shrink:0; height:125px; border-radius:12px; overflow:hidden; background:linear-gradient(110deg,#0B3C5D,#075b63); }
+.learning-photo img { width:auto; max-width:50%; height:100%; object-fit:contain; margin-left:auto; display:block; }
+.learning-photo figcaption { position:absolute; top:50%; transform:translateY(-50%); left:24px; color:#fff; font:10px "Noto Sans TC",sans-serif; }
+.learning-photo figcaption strong { display:block; font-size:22px; margin-bottom:8px; }
+.learning-photo figcaption span { color:#b5e8e0; }
 @media screen {
   :root { --ease-out: cubic-bezier(.22,1,.36,1); }
   body { background: radial-gradient(ellipse at 12% 95%,#116f70 0,transparent 45%),radial-gradient(ellipse at 90% 5%,#145679 0,transparent 48%),#082c43; }
@@ -67,6 +77,13 @@
   .slide-viewport { max-height:none; border-radius:16px; }
   .slide-header h2 { font-size:22px; }
   .hero-title { font-size:32px; }
+  .hero-visual { position:relative; inset:auto; z-index:0; height:190px; flex-shrink:0; border-radius:10px; }
+  .hero-visual img { opacity:1; object-position:65% 45%; }
+  .hero-visual::after { display:none; }
+  .hero-visual figcaption { font-size:9px; }
+  .learning-photo { height:170px; }
+  .learning-photo img { width:100%; max-width:none; object-fit:cover; opacity:.55; }
+  .learning-photo figcaption { left:18px; }
   .hero-eng { font-size:15px; }
   .card:hover { transform:none; }
 }
