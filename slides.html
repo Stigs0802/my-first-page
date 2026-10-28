@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="description" content="用 8 頁互動簡報掌握產業人才投資計畫：參訓補助、辦訓資格、審查與實務時程。支援手機閱讀與 PDF 下載。">
   <style>
     :root {
       --primary: #0B3C5D;
@@ -648,6 +649,7 @@
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
   </style>
+  <link rel="stylesheet" href="./experience.css">
 </head>
 <body>
 
@@ -658,6 +660,7 @@
       <span>產業人才投資計畫 (Industrial Human Resource Investment Plan)</span>
     </div>
     <div class="top-nav">
+      <button class="btn-icon share-button" onclick="sharePresentation()" title="分享這份簡報">分享 ↗</button>
       <a class="btn-icon" href="./slides.pdf" download="產業人才投資計畫-簡報.pdf" style="text-decoration:none" aria-label="下載 8 頁簡報 PDF">下載 PDF</a>
       <button class="btn-icon" onclick="toggleOverview()" title="投影片總覽 (快捷鍵: O 或 Esc)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -677,6 +680,8 @@
     </div>
   </div>
 
+  <nav class="chapter-nav" aria-label="簡報章節" id="chapterNav"></nav>
+  <div class="share-toast" id="shareToast" role="status" aria-live="polite"></div>
   <!-- Stage -->
   <div class="stage">
     <!-- Floating Nav Arrows -->
@@ -1378,6 +1383,9 @@
       if (index > totalSlides) index = totalSlides;
 
       currentSlide = index;
+      document.querySelectorAll('.chapter-button').forEach((button, idx) => {
+        button.setAttribute('aria-current', idx + 1 === index ? 'step' : 'false');
+      });
       if (window.matchMedia('(max-width: 900px)').matches) window.scrollTo({top: 0, behavior: 'instant'});
 
       for (let i = 1; i <= totalSlides; i++) {
@@ -1385,14 +1393,18 @@
         if (slide) {
           if (i === currentSlide) {
             slide.classList.add('active');
+            slide.setAttribute('aria-hidden', 'false');
           } else {
             slide.classList.remove('active');
+            slide.setAttribute('aria-hidden', 'true');
           }
         }
       }
 
       document.getElementById('slideIndicator').innerText = `${currentSlide} / ${totalSlides}`;
       document.getElementById('progressBar').style.width = `${(currentSlide / totalSlides) * 100}%`;
+      document.querySelectorAll('[onclick="prevSlide()"]').forEach(el => { el.disabled = currentSlide === 1; });
+      document.querySelectorAll('[onclick="nextSlide()"]').forEach(el => { el.disabled = currentSlide === totalSlides; });
 
       // Update overview thumbnails
       const thumbs = document.querySelectorAll('.overview-thumb');
@@ -1432,6 +1444,25 @@
     function toggleOverview() {
       const modal = document.getElementById('overviewModal');
       modal.classList.toggle('active');
+      if (modal.classList.contains('active')) modal.querySelector('.overview-thumb')?.focus();
+    }
+
+    let toastTimer;
+    async function sharePresentation() {
+      const url = 'https://stigs0802.github.io/my-first-page/';
+      try {
+        if (navigator.share) await navigator.share({title: '產業人才投資計畫｜8 頁互動簡報', url});
+        else { await navigator.clipboard.writeText(url); showToast('連結已複製，可以分享給任何人'); }
+      } catch (error) {
+        if (error.name !== 'AbortError') { showToast('分享網址：' + url); }
+      }
+    }
+    function showToast(message) {
+      const toast = document.getElementById('shareToast');
+      toast.textContent = message;
+      toast.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 4500);
     }
 
     function closeOverview(e) {
@@ -1447,6 +1478,13 @@
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('overviewModal').classList.contains('active')) { toggleOverview(); return; }
+      if (e.target.closest('button,a,input,textarea,select')) return;
+      if (['ArrowRight','ArrowLeft',' ','PageDown','PageUp','Home','End','Backspace'].includes(e.key)) e.preventDefault();
+      if (document.getElementById('overviewModal').classList.contains('active')) {
+        if (e.key === 'Escape') toggleOverview();
+        return;
+      }
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
         nextSlide();
       } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
@@ -1457,7 +1495,7 @@
         showSlide(totalSlides);
       } else if (e.key === 'f' || e.key === 'F') {
         toggleFullScreen();
-      } else if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') {
+      } else if (e.key === 'o' || e.key === 'O') {
         toggleOverview();
       }
     });
@@ -1465,11 +1503,16 @@
     // Touch swipe navigation
     let touchStartX = 0;
     let touchEndX = 0;
+    let touchStartY = 0;
+    let touchTarget;
     document.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
-    }, false);
+      touchStartY = e.changedTouches[0].screenY;
+      touchTarget = e.target;
+    }, {passive:true});
     document.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
+      if (touchTarget.closest('table,.overview-modal,.chapter-nav,a,button') || Math.abs(e.changedTouches[0].screenY - touchStartY) > Math.abs(touchEndX - touchStartX)) return;
       if (touchEndX < touchStartX - 50) nextSlide();
       if (touchEndX > touchStartX + 50) prevSlide();
     }, false);
@@ -1477,7 +1520,8 @@
     // Build overview thumbnails
     const overviewGrid = document.getElementById('overviewGrid');
     slideTitles.forEach((title, idx) => {
-      const thumb = document.createElement('div');
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
       thumb.className = `overview-thumb ${idx + 1 === currentSlide ? 'current' : ''}`;
       thumb.onclick = () => goToSlide(idx + 1);
       thumb.innerHTML = `
@@ -1488,6 +1532,16 @@
     });
 
     // Initialize
+    const chapterNames = ['計畫總覽','參訓補助','辦訓資格','課程規劃','審查機制','評分指標','申復處分','實務時程'];
+    chapterNames.forEach((name, idx) => {
+      const button = document.createElement('button');
+      button.className = 'chapter-button';
+      button.type = 'button';
+      button.innerHTML = `<span class="chapter-number">${String(idx + 1).padStart(2, '0')}</span><span class="chapter-label">${name}</span>`;
+      button.setAttribute('aria-label', `第 ${idx + 1} 頁：${name}`);
+      button.onclick = () => goToSlide(idx + 1);
+      document.getElementById('chapterNav').appendChild(button);
+    });
     showSlide(1);
   </script>
 </body>
