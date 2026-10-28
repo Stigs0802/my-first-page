@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>產業人才投資計畫 (Industrial Human Resource Investment Plan) - 核心重點與實務全覽</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --primary-dark: #172554;
+      --accent: #0d9488;
+      --accent-light: #14b8a6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --bg-dark: #0f172a;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --slide-ratio: calc(16 / 9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top presentation control bar */
+    .top-bar {
+      height: 52px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: #e2e8f0;
+      z-index: 100;
+    }
+
+    .top-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-title .badge {
+      background: #2563eb;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .slide-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+      min-width: 65px;
+      text-align: center;
+    }
+
+    /* Main Stage */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 32px 36px;
+      position: relative;
+    }
+
+    /* Slide container (16:9 ratio) */
+    .slide-viewport {
+      width: 100%;
+      max-width: 1320px;
+      aspect-ratio: 16 / 9;
+      max-height: calc(100vh - 100px);
+      position: relative;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    /* Slide Item */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 44px 56px 40px;
+      display: none;
+      flex-direction: column;
+      background: #f8fafc;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Progress bar */
+    .progress-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #e2e8f0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #0d9488);
+      width: 12.5%;
+      transition: width 0.3s ease;
+    }
+
+    /* Typography & Header in Slide */
+    .slide-header {
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .slide-header .tagline {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .slide-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .slide-header .slide-num-tag {
+      font-size: 26px;
+      font-weight: 900;
+      color: #cbd5e1;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Floating Arrow Buttons on Stage */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 50;
+      transition: all 0.2s;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(37, 99, 235, 0.9);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-arrow.prev { left: 8px; }
+    .nav-arrow.next { right: 8px; }
+
+    /* Slide Layout Components */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-primary {
+      border-top: 4px solid #2563eb;
+    }
+
+    .card-accent {
+      border-top: 4px solid #0d9488;
+    }
+
+    .card-warning {
+      border-top: 4px solid #f59e0b;
+    }
+
+    .card-danger {
+      border-top: 4px solid #ef4444;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      font-size: 13.5px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .list-styled {
+      list-style: none;
+    }
+
+    .list-styled li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    .list-styled li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: #2563eb;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #e0f2fe;
+      color: #0369a1;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .pill-green { background: #dcfce7; color: #15803d; }
+    .pill-amber { background: #fef3c7; color: #b45309; }
+    .pill-purple { background: #f3e8ff; color: #7e22ce; }
+    .pill-red { background: #fee2e2; color: #b91c1c; }
+
+    /* Tables */
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .table-custom th, .table-custom td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table-custom th {
+      background: #f8fafc;
+      font-weight: 700;
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .table-custom tr:hover td {
+      background: #f8fafc;
+    }
+
+    /* Metric Highlight Box */
+    .metric-box {
+      text-align: center;
+      padding: 16px 12px;
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border-radius: 10px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .metric-val {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1d4ed8;
+      line-height: 1.1;
+    }
+
+    .metric-sub {
+      font-size: 12px;
+      color: #475569;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Timeline step */
+    .timeline {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .timeline-item {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      position: relative;
+    }
+
+    .timeline-item::after {
+      content: "➔";
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    .timeline-item:last-child::after {
+      display: none;
+    }
+
+    .timeline-step {
+      font-size: 11px;
+      font-weight: 700;
+      color: #2563eb;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* Slide 1 Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 38px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #67e8f9;
+      margin-bottom: 18px;
+      width: fit-content;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-eng {
+      font-size: 18px;
+      color: #94a3b8;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 20px;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* Overview Modal Grid */
+    .overview-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .overview-modal.active {
+      display: block;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .overview-thumb {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 16px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 160px;
+    }
+
+    .overview-thumb:hover {
+      border-color: #3b82f6;
+      transform: translateY(-4px);
+    }
+
+    .overview-thumb.current {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
+    }
+
+    .overview-thumb-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .overview-thumb-num {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Print Styles: Make all slides print as 8 clean pages */
+    @media print {
+      body {
+        background: #fff;
+        height: auto;
+        overflow: visible;
+      }
+      .top-bar, .nav-arrow, .progress-bar-container, .overview-modal {
+        display: none !important;
+      }
+      .stage {
+        padding: 0;
+        display: block;
+      }
+      .slide-viewport {
+        max-width: none;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: visible;
+        aspect-ratio: auto;
+        height: auto;
+      }
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        position: relative !important;
+        page-break-after: always;
+        height: 100vh;
+        max-height: 100vh;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation & Status Bar -->
+  <div class="top-bar">
+    <div class="top-title">
+      <span class="badge">勞動部法規標準</span>
+      <span>產業人才投資計畫 (Industrial Human Resource Investment Plan)</span>
+    </div>
+    <div class="top-nav">
+      <button class="btn-icon" onclick="toggleOverview()" title="投影片總覽 (快捷鍵: O 或 Esc)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        總覽
+      </button>
+      <button class="btn-icon" onclick="prevSlide()" title="上一張 (Left Arrow / Backspace)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="slide-counter" id="slideIndicator">1 / 8</div>
+      <button class="btn-icon" onclick="nextSlide()" title="下一張 (Right Arrow / Space)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <button class="btn-icon" onclick="toggleFullScreen()" title="全螢幕切換 (快捷鍵: F)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        全螢幕
+      </button>
+    </div>
+  </div>
+
+  <!-- Stage -->
+  <div class="stage">
+    <!-- Floating Nav Arrows -->
+    <div class="nav-arrow prev" onclick="prevSlide()" title="上一頁 (←)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+    </div>
+    <div class="nav-arrow next" onclick="nextSlide()" title="下一頁 (→)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
+    </div>
+
+    <!-- Presentation Viewport (16:9) -->
+    <div class="slide-viewport">
+
+      <!-- SLIDE 1: 封面與核心架構 -->
+      <div class="slide active" id="slide-1">
+        <div class="hero-banner">
+          <div>
+            <div class="hero-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              勞動部勞動力發展署 113年12月25日發訓字第1132504210號令修正
+            </div>
+            <h1 class="hero-title">產業人才投資計畫</h1>
+            <div class="hero-eng">Industrial Human Resource Investment Plan 政策重點與辦訓規範全覽</div>
+
+            <div style="display: flex; gap: 12px; margin-top: 10px;">
+              <span class="pill pill-green" style="font-size: 13px; padding: 6px 14px;">三年十萬補助</span>
+              <span class="pill" style="font-size: 13px; padding: 6px 14px;">TTQS 品質管理</span>
+              <span class="pill pill-amber" style="font-size: 13px; padding: 6px 14px;">政策性產業優先</span>
+              <span class="pill pill-purple" style="font-size: 13px; padding: 6px 14px;">二階段嚴謹核班</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0;">
+            <div style="background: rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);">
+              <div style="font-size: 12px; color: #93c5fd; font-weight: 700;">🎯 計畫核心精神</div>
+              <div style="font-size: 13px; margin-top: 4px; color: #f1f5f9;">激發在職勞工自主學習，厚植個人與國家人力資本</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);">
+              <div style="font-size: 12px; color: #93c5fd; font-weight: 700;">🏫 優質夥伴結合</div>
+              <div style="font-size: 13px; margin-top: 4px; color: #f1f5f9;">遴選具備 TTQS 認證優質辦訓機構與大專校院</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);">
+              <div style="font-size: 12px; color: #93c5fd; font-weight: 700;">💼 區域產業需求</div>
+              <div style="font-size: 13px; margin-top: 4px; color: #f1f5f9;">五大分署因地制宜，緊密連結區域重點產業</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);">
+              <div style="font-size: 12px; color: #93c5fd; font-weight: 700;">⚖️ 嚴密績效機制</div>
+              <div style="font-size: 13px; margin-top: 4px; color: #f1f5f9;">ABCD四級經費核配、不預告抽訪、違規嚴懲</div>
+            </div>
+          </div>
+
+          <div class="hero-footer">
+            <div class="hero-meta">
+              主管機關：勞動部勞動力發展署及所屬各分署（北基宜花金馬、桃竹苗、中彰投、雲嘉南、高屏澎東）<br>
+              適用法規：產業人才投資方案補助要點 / 就業安定基金與就業保險基金項下支應
+            </div>
+            <div style="font-size: 12px; color: #94a3b8; text-align: right;">
+              簡報導讀模組 • 共 8 頁精闢拆解
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: 參訓對象與補助標準 -->
+      <div class="slide" id="slide-2">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Trainee Eligibility & Subsidies</div>
+            <h2>參訓對象資格與補助標準 (條文第4~7點)</h2>
+          </div>
+          <div class="slide-num-tag">02</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="grid-3" style="margin-bottom: 20px;">
+            <!-- 卡片 1: 參訓身分資格 -->
+            <div class="card card-primary">
+              <div class="card-title">
+                <span class="pill pill-green">法定門檻</span> 參訓勞工身分資格
+              </div>
+              <div class="card-body">
+                <ul class="list-styled">
+                  <li><strong>年齡基準</strong>：年滿 <strong>15 歲以上</strong>（以開訓日為基準日）。</li>
+                  <li><strong>在職投保身分</strong>：具備下列保險之在職被保險人：
+                    <div style="margin: 4px 0 6px;"><span class="pill">勞工保險</span><span class="pill">就業保險</span><span class="pill">職災保險</span><span class="pill">農民健保</span></div>
+                  </li>
+                  <li><strong>國籍與居留條件</strong>：
+                    <ul style="padding-left: 14px; font-size: 12.5px; color: #475569;">
+                      <li>本國籍勞工</li>
+                      <li>與設有戶籍國民結婚並獲准在臺工作者 (陸港澳配/外配)</li>
+                      <li>持工作許可之泰緬印尼無國籍國民、人口販運被害人</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 卡片 2: 補助額度與雙軌成數 -->
+            <div class="card card-accent">
+              <div class="card-title">
+                <span class="pill">核心利多</span> 補助額度與成數
+              </div>
+              <div class="card-body">
+                <div class="metric-box" style="margin-bottom: 12px;">
+                  <div class="metric-val">100,000 元</div>
+                  <div class="metric-sub">每位學員 3 年內累計最高補助上限</div>
+                </div>
+                <div style="font-size: 13px;">
+                  <div style="display:flex; justify-content:space-between; padding: 6px 0; border-bottom: 1px dashed #cbd5e1;">
+                    <strong>一般在職學員</strong>
+                    <span style="color:#2563eb; font-weight:700;">補助 80% (自付 20%)</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; padding: 6px 0;">
+                    <strong>特定對象弱勢族群</strong>
+                    <span style="color:#0d9488; font-weight:700;">全額補助 100%</span>
+                  </div>
+                  <p style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+                    ※ 3年計算自初次參訓開訓日起算，滿期後重新起算。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 卡片 3: 特定對象與請領要件 -->
+            <div class="card card-warning">
+              <div class="card-title">
+                <span class="pill pill-amber">關鍵規範</span> 100% 全額補助對象與門檻
+              </div>
+              <div class="card-body">
+                <div style="font-size: 12px; background: #fffbeb; padding: 8px; border-radius: 6px; margin-bottom: 8px; border: 1px solid #fef3c7;">
+                  <strong>特定對象名單：</strong><br>
+                  低收入戶/中低收入戶、身心障礙者、原住民、中高齡者(45~65歲)、高齡者(逾65歲)、獨力負擔家計者、家暴受害者、更生受保護人、犯罪被害受重傷/死亡遺屬等。
+                </div>
+                <div style="font-size: 13px; font-weight:700; color:#b45309; margin-bottom:4px;">請領補助 3 大必備要件：</div>
+                <ul class="list-styled" style="font-size: 12.5px;">
+                  <li><strong>缺席時數未超過總時數 1/5</strong> (出席率需達 80% 以上)</li>
+                  <li><strong>考核成績合格</strong> 並取得結訓證書或學分證明</li>
+                  <li><strong>填寫參訓學員意見調查表</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f1f5f9; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; color: #475569; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              ⚠️ <strong>參訓禁忌</strong>：參加政府失業者職前訓練補助期間，不得重複申領本計畫補助（受訓中非自願失業除外）；授課時段重疊者以一班為限。
+            </div>
+            <div style="font-weight: 600; color: #1e3a8a;">條文依據：第 5、6、7 點</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: 辦訓單位申請資格與限制 -->
+      <div class="slide" id="slide-3">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Training Provider Qualifications</div>
+            <h2>辦訓單位資格條件與禁制紅線 (條文第3、11、17點)</h2>
+          </div>
+          <div class="slide-num-tag">03</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="grid-2" style="gap: 24px; margin-bottom: 18px;">
+            <!-- 資格要求 -->
+            <div class="card card-primary">
+              <div class="card-title">
+                <span class="pill pill-green">申請資格</span> 合格辦訓機構條件
+              </div>
+              <div class="card-body">
+                <div style="margin-bottom: 12px;">
+                  <strong style="color: #1e293b;">1. 法定合格機構主體（二擇一）：</strong>
+                  <ul class="list-styled" style="margin-top: 6px;">
+                    <li><strong>教育部核准設立之大專校院</strong>（校本部、分校）。</li>
+                    <li><strong>依法設立 2 年以上之法人團體</strong>：職業訓練機構、工業團體、商業團體、農民團體、漁民團體、研究機構、財團法人、公益社團法人。</li>
+                  </ul>
+                </div>
+                <div style="margin-bottom: 12px;">
+                  <strong style="color: #1e293b;">2. TTQS 評核硬門檻：</strong>
+                  <div style="background: #eff6ff; padding: 10px; border-radius: 6px; margin-top: 4px; font-size: 13px; border: 1px solid #bfdbfe;">
+                    持受理截止日前 <strong>120 日內</strong> 本署 TTQS 訓練機構版 <strong>「通過(含)以上」</strong> 有效證書，且於各計畫開訓日仍有效。
+                  </div>
+                </div>
+                <div>
+                  <strong style="color: #1e293b;">3. 內部編制要求：</strong>
+                  <p style="font-size: 13px; color: #475569; margin-top: 4px;">
+                    章程任務須含辦理訓練項目，且須編制<strong>專職人員</strong>辦理計畫。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 紅線禁忌與場地要求 -->
+            <div class="card card-danger">
+              <div class="card-title">
+                <span class="pill pill-red">嚴格排除</span> 禁制條款與場地消安
+              </div>
+              <div class="card-body">
+                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                  <strong style="color: #b91c1c; font-size: 14px;">⛔ 資格重大排除紅線：</strong>
+                  <ul class="list-styled" style="margin-top: 6px; font-size: 13px;">
+                    <li><strong>非屬勞工團體</strong>：依法嚴格排除各級勞工團體（工會組織）之申請。</li>
+                    <li><strong>D 級機構排除</strong>：最近一次審查計分表核列辦訓等級為 <strong>D 級者，不得申請</strong>。</li>
+                    <li><strong>禁止轉包/代辦</strong>：核定後應自行辦理，嚴禁將課程部分或全部轉讓他人或代他單位辦理。</li>
+                    <li><strong>不得僅限會員參訓</strong>：必須公開開放符合條件之各界勞工報名。</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style="color: #1e293b;">場地消安建安規定 (第19點)：</strong>
+                  <p style="font-size: 12.5px; color: #64748b; margin-top: 4px;">
+                    辦訓場地須檢附有效「<strong>消防安全設備檢修申報受理單</strong>」與「<strong>建築物防火避難設施與設備安檢結果</strong>」合格影本；公立學校或政府機構場地租借需備機關同意函。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px 18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size: 13px; color: #334155;">
+                📍 <strong>場地轄區限制 (第17點)</strong>：以單位立案服務區域為優先，<strong>不得跨越分署服務轄區</strong>；大專校院以校本部、分校及教育部核定地點為限。
+              </span>
+              <span class="pill pill-purple">立案區域原則</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: 課程規格、時數與師資標準 -->
+      <div class="slide" id="slide-4">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Curriculum & Faculty Criteria</div>
+            <h2>課程規劃、班級規格與師資標準 (條文第9~15點、附件一)</h2>
+          </div>
+          <div class="slide-num-tag">04</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="grid-3" style="margin-bottom: 16px;">
+            <!-- 範疇與類別 -->
+            <div class="card card-primary">
+              <div class="card-title"><span class="pill">課程範疇</span> 5大專業領域與班別</div>
+              <div class="card-body">
+                <div style="font-size: 13px; margin-bottom: 10px;">
+                  <strong>重點培訓範疇 (第9點)：</strong>
+                  <div style="margin-top: 6px;">
+                    <span class="pill">數位能力課程</span>
+                    <span class="pill">研發創新課程</span>
+                    <span class="pill">專業技術課程</span>
+                    <span class="pill">國際溝通能力</span>
+                    <span class="pill">管理經營課程</span>
+                  </div>
+                </div>
+                <div style="font-size: 12.5px; color: #475569;">
+                  <strong>課程類別 (第10點)：</strong><br>
+                  • <strong>學分班</strong>：大專校院實務應用導向<br>
+                  • <strong>非學分班</strong>：專業職訓機構/法人辦理<br>
+                  <span style="color:#b91c1c; font-weight:600;">※ 不受理托育人員與照服員班次</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 班級規模與時數 -->
+            <div class="card card-accent">
+              <div class="card-title"><span class="pill pill-green">班次規格</span> 嚴格規格標準</div>
+              <div class="card-body">
+                <table class="table-custom">
+                  <tr>
+                    <td><strong>訓練時數</strong></td>
+                    <td><strong>16 ~ 144 小時</strong> (以不超過4個月為限)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>核定人數</strong></td>
+                    <td>上限 <strong>40 人 / 班</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>自費人數</strong></td>
+                    <td>非本計畫補助人數 <strong>&le; 20%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>企業集中限制</strong></td>
+                    <td>同投保單位員工 <strong>不得超過 1/2</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>開訓期程</strong></td>
+                    <td>上半年 1/1~6/30；下半年 7/1~12/31</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- 師資助教標準 -->
+            <div class="card card-warning">
+              <div class="card-title"><span class="pill pill-amber">附件一</span> 師資及助教資格審查</div>
+              <div class="card-body" style="font-size: 12px; line-height: 1.5;">
+                <strong style="color: #1e293b;">👨‍🏫 授課師資 3 大進路：</strong>
+                <ul class="list-styled" style="margin-top: 4px;">
+                  <li><strong>教師資格</strong>：具教(講)師證書、博士學位、或碩士1年/大學2年/專科3年大專專任教職。</li>
+                  <li><strong>專業技術</strong>：甲級技術士/高考及格；或大學/專科2年/高職4年實務加乙級證照。</li>
+                  <li><strong>業界專家</strong>：特殊造詣師傅教學/技術累計達 5 年以上；大專畢業界任職 2 年以上。</li>
+                </ul>
+                <div style="border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 6px;">
+                  <strong>助教條件</strong>：大專證照/2年技術、相關科系任職1年、高職3年或特殊師傅3年。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px;">
+            <div>
+              ⭐ <strong>政策性產業特惠 (第12點)</strong>：符合政府推動政策性產業之課程，經費編列<strong>不受上限限制</strong>，並享有分署<strong>優先核班</strong>優勢！
+            </div>
+            <span class="pill pill-green">無經費上限限制</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: 二階段審查與經費核配機制 -->
+      <div class="slide" id="slide-5">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Review Process & Budget Allocation</div>
+            <h2>二階段審查機制與經費分級核配 (條文第21點、附件二)</h2>
+          </div>
+          <div class="slide-num-tag">05</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="timeline" style="margin-bottom: 22px;">
+            <div class="timeline-item">
+              <div class="timeline-step">Step 1 • 書面檢核</div>
+              <div class="timeline-title">分署書面檢核資格</div>
+              <div class="timeline-desc">檢核辦訓單位資格、消安建安證照、TTQS證書等；不合規定限期補正，逾期不予審查。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">Step 2 • 第一階段</div>
+              <div class="timeline-title">分區審查小組實質審查</div>
+              <div class="timeline-desc">由分署長主持、敦聘產官學勞 5~22 位專家實質審查課程時數、師資專業、經費合理性。通過者納入核班範圍。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">Step 3 • 第二階段</div>
+              <div class="timeline-title">審查計分表量化分級</div>
+              <div class="timeline-desc">依前年度執行績效、管理品質及滿意度計算總分，依常態排序分為 A、B、C、D 四級核配經費。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">Step 4 • 公告核班</div>
+              <div class="timeline-title">核定班次公告與備查</div>
+              <div class="timeline-desc">報勞動力發展署備查後正式發函通知；享有 10 日法定申復權益。</div>
+            </div>
+          </div>
+
+          <!-- 分級配額矩陣 -->
+          <div class="card card-primary" style="margin-bottom: 14px;">
+            <div class="card-title" style="justify-content: space-between;">
+              <span>📊 各等級訓練單位預算核配比例標準 (附件二 第六點)</span>
+              <span style="font-size: 12px; color: #64748b; font-weight: 500;">依分署審查計分表總分由高至低常態百分比劃分</span>
+            </div>
+            <div class="card-body">
+              <table class="table-custom">
+                <thead>
+                  <tr>
+                    <th>等級</th>
+                    <th>分署排序區間</th>
+                    <th>核配總預算經費比率</th>
+                    <th>特別核配與限制說明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="pill pill-green" style="font-size: 14px; font-weight: 800;">A 級</span></td>
+                    <td><strong>前 25% (含)</strong></td>
+                    <td style="color:#15803d; font-weight: 800; font-size: 16px;">50% 總經費</td>
+                    <td>頂尖優質單位，享有最高辦訓班次與預算配額</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill" style="font-size: 14px; font-weight: 800;">B 級</span></td>
+                    <td><strong>25% (不含) ~ 55% (含)</strong></td>
+                    <td style="color:#2563eb; font-weight: 800; font-size: 16px;">30% 總經費</td>
+                    <td>表現良好穩定之主力辦訓單位</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill pill-amber" style="font-size: 14px; font-weight: 800;">C 級</span></td>
+                    <td><strong>55% (不含) ~ 90% (含)</strong></td>
+                    <td style="color:#b45309; font-weight: 800; font-size: 16px;">20% 總經費</td>
+                    <td>併計<strong>首次申辦本計畫之合格新單位</strong>（初次申辦一律列最低額度）</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill pill-red" style="font-size: 14px; font-weight: 800;">D 級</span></td>
+                    <td><strong>90% (不含) ~ 100% (含)</strong></td>
+                    <td style="color:#b91c1c; font-weight: 800; font-size: 16px;">0% (不予核配)</td>
+                    <td><strong>落入後 10% 者不予核配經費</strong>，且次年度不得再提出申請</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; color: #166534; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              💡 <strong>iCAP 職能導向課程特惠</strong>：課程獲本署職能導向課程品質認證 (iCAP) 者，<strong>3 年內優先核定</strong>，經費額度<strong>不計入</strong>各等級核配額度內（每次每認證限 1 班）！
+            </div>
+            <span class="pill pill-green">額外獨立核班</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: 年度審查計分表量化指標剖析 -->
+      <div class="slide" id="slide-6">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Scorecard Analytics</div>
+            <h2>年度審查計分表指標架構剖析 (附件三 完整解讀)</h2>
+          </div>
+          <div class="slide-num-tag">06</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="grid-3" style="margin-bottom: 18px;">
+            <!-- 指標 I -->
+            <div class="card card-primary">
+              <div class="card-title" style="justify-content: space-between;">
+                <span>I. 前年度訓練執行量</span>
+                <span class="pill">權重 13%</span>
+              </div>
+              <div class="card-body">
+                <div style="margin-bottom: 12px; background: #f8fafc; padding: 10px; border-radius: 6px;">
+                  <div style="display:flex; justify-content:space-between; font-weight:700;">
+                    <span>1-1 開班率</span>
+                    <span style="color:#2563eb;">5%</span>
+                  </div>
+                  <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                    計算方式：實際開班數 / 核定總班數
+                  </div>
+                </div>
+
+                <div style="background: #f8fafc; padding: 10px; border-radius: 6px;">
+                  <div style="display:flex; justify-content:space-between; font-weight:700;">
+                    <span>1-2 訓練人次達成率</span>
+                    <span style="color:#2563eb;">8%</span>
+                  </div>
+                  <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                    計算方式：實際開訓人次 / 核定總人次
+                  </div>
+                </div>
+                <p style="font-size: 12px; color: #475569; margin-top: 10px;">
+                  ※ 招訓能力是基礎指標，避免核班後流班或招生嚴重不足。
+                </p>
+              </div>
+            </div>
+
+            <!-- 指標 II (權重之王) -->
+            <div class="card card-accent" style="grid-column: span 1;">
+              <div class="card-title" style="justify-content: space-between;">
+                <span>II. 訓練計畫執行及管理</span>
+                <span class="pill pill-green">核心 67%</span>
+              </div>
+              <div class="card-body" style="font-size: 12.5px;">
+                <div style="border-left: 3px solid #0d9488; padding-left: 8px; margin-bottom: 8px;">
+                  <strong>2-1 資料建置及維護 (28%)</strong><br>
+                  • 各項函送資料/登錄時效 (11%)<br>
+                  • 資料內容及登錄正確性 (10%)<br>
+                  • 訓練計畫變更項次數 (7%)
+                </div>
+
+                <div style="border-left: 3px solid #0d9488; padding-left: 8px; margin-bottom: 8px;">
+                  <strong>2-2 督導與考核 (34%)</strong><br>
+                  • 學員管理規範落實 (4%)<br>
+                  • <strong>課程辦理情形 (30%)</strong> (訪視稽核、現場巡查、教學落實)
+                </div>
+
+                <div style="border-left: 3px solid #0d9488; padding-left: 8px;">
+                  <strong>2-3 計畫參與度 (5%)</strong><br>
+                  • 說明會、訓練及相關會議出席率 (5%)
+                </div>
+              </div>
+            </div>
+
+            <!-- 指標 III & IV -->
+            <div class="card card-warning">
+              <div class="card-title" style="justify-content: space-between;">
+                <span>III. 品質成效 & IV. 加分</span>
+                <span class="pill pill-amber">成效 15% + 加分</span>
+              </div>
+              <div class="card-body">
+                <div style="margin-bottom: 12px;">
+                  <strong style="color: #1e293b;">III. 訓練品質及成效 (15%)：</strong>
+                  <div style="background: #fffbeb; padding: 8px 10px; border-radius: 6px; margin-top: 4px; font-size: 12.5px;">
+                    <div style="display:flex; justify-content:space-between;">
+                      <span>3-1 最近一次 TTQS 評核等級</span>
+                      <strong style="color:#b45309;">10%</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top: 4px;">
+                      <span>3-2 參訓學員滿意程度</span>
+                      <strong style="color:#b45309;">5%</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong style="color: #1e293b;">IV. 額外加分項目：</strong>
+                  <div style="font-size: 12px; color: #475569; margin-top: 4px; line-height: 1.5;">
+                    配合勞動部重要職業訓練政策、配合推動國家政策性產業課程或取得特殊認證表現卓越者另予額外加分。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="font-size: 13px; color: #334155;">
+              🎯 <strong>高分決戰點</strong>：指標 II 的「<strong>課程辦理情形 (30%)</strong>」與「<strong>行政登錄時效/正確性 (21%)</strong>」合計高達 51%！行政零失誤與課堂無缺失是進入 A 級的關鍵。
+            </div>
+            <span class="pill pill-purple">A級晉升心法</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: 申復機制、退費規範與罰則體系 -->
+      <div class="slide" id="slide-7">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Compliance, Appeals & Penalties</div>
+            <h2>核定申復、退費機制與重大處分 (條文第23、30~42點、附件四)</h2>
+          </div>
+          <div class="slide-num-tag">07</div>
+        </div>
+
+        <div class="slide-content">
+          <div class="grid-3" style="margin-bottom: 16px;">
+            <!-- 申復作業流程 -->
+            <div class="card card-primary">
+              <div class="card-title"><span class="pill">附件四</span> 審查結果申復要領</div>
+              <div class="card-body" style="font-size: 12.5px;">
+                <ul class="list-styled">
+                  <li><strong>提出期限</strong>：公告次日起 <strong>10 日內</strong> 書面具名送達原分署，<strong>申復以一次為限</strong>。</li>
+                  <li><strong>必要要件</strong>：載明理由佐證、<strong>負責人及單位雙用印</strong>；補正限 3 日內完成。</li>
+                  <li><strong>申復審議會</strong>：分署長召集 3~11 人外聘專家小組，<strong>原審查委員依法迴避</strong>。</li>
+                  <li><strong>審議原則</strong>：採<strong>書面審議</strong>，不涉及計畫重審。申復通過納入原等級配額核班。</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 退費規範 -->
+            <div class="card card-warning">
+              <div class="card-title"><span class="pill pill-amber">退費機制</span> 學員 vs 單位責任</div>
+              <div class="card-body" style="font-size: 12px;">
+                <div style="margin-bottom: 8px;">
+                  <strong style="color: #b45309;">學員個人因素退費 (第30點)：</strong><br>
+                  • 開訓日前：非學分班扣除 &le;5% 費用，餘額退還；學分班依教育部規定。<br>
+                  • 已開訓但未達總時數 1/3：退還 50%。<br>
+                  • 已逾總時數 1/3：<strong>不予退費</strong>。
+                </div>
+                <div style="border-top: 1px dashed #cbd5e1; padding-top: 6px;">
+                  <strong style="color: #b91c1c;">單位因素退費 (第31點 - 全額退費)：</strong><br>
+                  未開班、未如期開班、資格審查疏失致退訓、分署撤銷核定者，<strong>100%全數退還學員</strong>且手續費由單位負擔！
+                </div>
+              </div>
+            </div>
+
+            <!-- 罰則體系 -->
+            <div class="card card-danger">
+              <div class="card-title"><span class="pill pill-red">法律責任</span> 違規停權與處分</div>
+              <div class="card-body" style="font-size: 12px;">
+                <strong style="color: #1e293b;">👤 學員處分：</strong>
+                <p style="color:#64748b; margin-bottom: 6px;">
+                  • 偽造文書/冒名參訓：<strong>停權 2 年</strong>，追繳並移送行政執行。<br>
+                  • 簽到不符/代簽名：<strong>停權 1 年</strong>。
+                </p>
+
+                <strong style="color: #b91c1c;">🏢 訓練單位重大處分：</strong>
+                <p style="color:#64748b;">
+                  • <strong>停權 1 年</strong>：超收費用、拒絕稽核、違反個資法、招生不實、行政違法。<br>
+                  • <strong>停權 2 年</strong>：轉包轉讓、人頭虛報、重複請領補助、重大傷病、<strong>未妥善保存憑證10年/未退繳差額</strong>。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 10px 16px; font-size: 12.5px; color: #991b1b; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              ⚖️ <strong>單據保存法定責任 (第42點)</strong>：支用單據必須<strong>妥善保存十年</strong>！若遇提前銷毀毀損須函報分署同意；結訓有差額須於30日內主動繳回。
+            </div>
+            <span class="pill pill-red">保存 10 年</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: 辦訓單位全年度實務作業指南與時程檢核 -->
+      <div class="slide" id="slide-8">
+        <div class="slide-header">
+          <div>
+            <div class="tagline">Execution Timeline & Best Practices</div>
+            <h2>全年度實務作業時程檢核與辦訓指南 (第16~34點)</h2>
+          </div>
+          <div class="slide-num-tag">08</div>
+        </div>
+
+        <div class="slide-content">
+          <!-- 關鍵流程與時效 -->
+          <div class="timeline" style="margin-bottom: 20px;">
+            <div class="timeline-item">
+              <div class="timeline-step">階段 1 • 提案申請</div>
+              <div class="timeline-title">公文遞件提案</div>
+              <div class="timeline-desc">備函檢附 12 項必備文件 (班別表、場地消安、師資資歷、TTQS證書等) 報送轄區分署。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">階段 2 • 招訓準備</div>
+              <div class="timeline-title">簡章備查與招生</div>
+              <div class="timeline-desc">簡章公告前函報備查；確實審查學員勞保在職身分、全額收費簽約、同公司不得超半數。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">階段 3 • 開訓報備</div>
+              <div class="timeline-title" style="color:#2563eb;">開訓後 14 日內</div>
+              <div class="timeline-desc">函送開班學員名冊、投保狀況檢核表、契約書影本及全額補助證明等送轄區分署備查。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">階段 4 • 結訓請領</div>
+              <div class="timeline-title" style="color:#0d9488;">結訓後 21 日內</div>
+              <div class="timeline-desc">函送出席紀錄、發票收據、簽到退與日誌、結訓證書影本，分署審核直撥學員個人帳戶。</div>
+            </div>
+          </div>
+
+          <!-- 3大最佳實務指南 -->
+          <div class="grid-3" style="margin-bottom: 14px;">
+            <div class="card card-primary">
+              <div class="card-title">
+                <span class="pill">策略 1</span> 錨定國家政策性產業
+              </div>
+              <div class="card-body" style="font-size: 13px;">
+                優先配合智慧機械、AI 數位轉型、淨零碳排、綠能等國家戰略產業開班。不僅享有<strong>優先核班</strong>，且訓練經費<strong>不受每人時成本編列上限限制</strong>！
+              </div>
+            </div>
+
+            <div class="card card-accent">
+              <div class="card-title">
+                <span class="pill pill-green">策略 2</span> 積極導入 iCAP 職能認證
+              </div>
+              <div class="card-body" style="font-size: 13px;">
+                爭取課程通過勞動力發展署「職能導向課程品質認證 (iCAP)」，可享有<strong>三年優先核定</strong>優惠，且經費額度<strong>不佔訓練單位評級配額</strong>，擴大辦訓能量。
+              </div>
+            </div>
+
+            <div class="card card-warning">
+              <div class="card-title">
+                <span class="pill pill-amber">策略 3</span> 鎖定 A 級目標精進 TTQS
+              </div>
+              <div class="card-body" style="font-size: 13px;">
+                維持 TTQS 銅牌或銀牌以上評級，確保行政登錄零逾期、零更動；守住 80% 開班與人次達成率，穩坐前 25% A 級梯隊，掌握 50% 核心經費配額！
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #1e293b; color: #ffffff; padding: 12px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+            <div>
+              🚀 <strong>落實產業人才投資計畫</strong>：優質辦訓、嚴謹合規、深耕區域，共同攜手培育具國際競爭力之臺灣專業人才！
+            </div>
+            <div style="color: #38bdf8; font-weight: 700;">勞動部勞動力發展署 產投方案執行檢核</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Progress Bar -->
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview Modal -->
+  <div class="overview-modal" id="overviewModal" onclick="closeOverview(event)">
+    <div style="max-width: 1200px; margin: 0 auto 20px; display: flex; justify-content: space-between; align-items: center; color: white;">
+      <h3 style="font-size: 20px; font-weight: 700;">投影片總覽 (Slide Deck Overview)</h3>
+      <button class="btn-icon" onclick="toggleOverview()">✕ 關閉</button>
+    </div>
+    <div class="overview-grid" id="overviewGrid">
+      <!-- Generated dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const totalSlides = 8;
+    let currentSlide = 1;
+
+    const slideTitles = [
+      "01 封面與核心架構",
+      "02 參訓對象與補助標準",
+      "03 辦訓單位資格與禁制",
+      "04 課程規格與師資標準",
+      "05 二階段審查與經費核配",
+      "06 年度審查計分表量化指標",
+      "07 申復機制與處分罰則",
+      "08 辦訓作業指南與時程檢核"
+    ];
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+
+      currentSlide = index;
+
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        }
+      }
+
+      document.getElementById('slideIndicator').innerText = `${currentSlide} / ${totalSlides}`;
+      document.getElementById('progressBar').style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+      // Update overview thumbnails
+      const thumbs = document.querySelectorAll('.overview-thumb');
+      thumbs.forEach((thumb, idx) => {
+        if (idx + 1 === currentSlide) {
+          thumb.classList.add('current');
+        } else {
+          thumb.classList.remove('current');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn(`Fullscreen error: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    function toggleOverview() {
+      const modal = document.getElementById('overviewModal');
+      modal.classList.toggle('active');
+    }
+
+    function closeOverview(e) {
+      if (e.target.id === 'overviewModal') {
+        toggleOverview();
+      }
+    }
+
+    function goToSlide(num) {
+      showSlide(num);
+      document.getElementById('overviewModal').classList.remove('active');
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') {
+        toggleOverview();
+      }
+    });
+
+    // Touch swipe navigation
+    let touchStartX = 0;
+    let touchEndX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) nextSlide();
+      if (touchEndX > touchStartX + 50) prevSlide();
+    }, false);
+
+    // Build overview thumbnails
+    const overviewGrid = document.getElementById('overviewGrid');
+    slideTitles.forEach((title, idx) => {
+      const thumb = document.createElement('div');
+      thumb.className = `overview-thumb ${idx + 1 === currentSlide ? 'current' : ''}`;
+      thumb.onclick = () => goToSlide(idx + 1);
+      thumb.innerHTML = `
+        <div class="overview-thumb-title">${title}</div>
+        <div class="overview-thumb-num">Slide ${idx + 1} of ${totalSlides}</div>
+      `;
+      overviewGrid.appendChild(thumb);
+    });
+
+    // Initialize
+    showSlide(1);
+  </script>
+</body>
+</html>
